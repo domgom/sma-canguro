@@ -1,0 +1,48 @@
+@namespace(uri="DB", prefix="DB")
+@gmf(foo="bar")
+package DB;
+
+@gmf.diagram(foo="bar")
+class DiagramaER{
+   val Entidad[*] nodes;
+   val Enlace[*] links;
+   val Relacion[*] relations;
+}
+
+@gmf.node(label="name",figure="ellipse",label.icon="false")
+class Entidad{
+   attr String name;
+   @gmf.compartment(foo="bar", layout="list")
+   val Atributo[*] atts; 
+}
+
+@gmf.node(label="name,cardinalidad",figure="rectangle",label.icon="false")
+class Relacion{
+   attr String name;
+   attr String cardinalidad;
+   @gmf.compartment(foo="bar", layout="list")
+   val Atributo[*] atts; 
+}
+
+@gmf.node(label = "nombre,tipo", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
+class Atributo {
+  attr String nombre;
+  attr EnumTipos tipo;
+}
+
+@gmf.link(source="source",target="target",label="cardinalidad")
+class Enlace{
+   attr String cardinalidad;
+   ref Entidad source; 
+   ref Relacion target;
+}
+
+enum EnumTipos {
+  String = 0;
+  int = 1;
+  boolean = 2;
+  float = 3;
+  double = 4;
+  long = 5;
+  char = 6;
+}
