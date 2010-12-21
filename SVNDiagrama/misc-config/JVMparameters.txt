@@ -1,2 +1,0 @@
-#Run as eclipse application arguments:
--Dosgi.requiredJavaVersion=1.5 -XX:PermSize=64M -XX:MaxPermSize=128M -Xms512M -Xmx1024M
