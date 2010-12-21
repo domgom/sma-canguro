@@ -1,6 +1,7 @@
 [%
  var paqueteBase : String := 'app';
  var diagrama : Diagrama := Diagrama.allInstances().at(0);
+
 %]
 
 project --topLevelPackage [%=paqueteBase%]
@@ -54,6 +55,18 @@ field string --fieldName [%=atributo.nombre%] --sizeMax 1
 	
 	 }
  }%]
+ 
+[% //Modificar por referencias
+for (referencia in diagrama.relaciones ) { %]
+focus --class [%=referencia.origen.paquete%].[%=referencia.origen.nombre%]
+field reference --type [%=referencia.destino.paquete%].[%=referencia.destino.nombre%] [%=referencia.destino.nombre.toLowerCase()%]
+[%}%]
+
+[% //Modificar por agregaciones 
+for (agregacion in diagrama.relaciones ) { %]
+focus --class [%=referencia.origen.paquete%].[%=referencia.origen.nombre%]
+field set --fieldName [%=referencia.destino.nombre.toLowerCase()%] --element [%=referencia.destino.paquete%].[%=referencia.destino.nombre%]
+[%}%]
 
 controller all --package ~.web
 quit
