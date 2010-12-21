@@ -1,5 +1,5 @@
 [%
- var paqueteBase : String := 'es.us.lsi';
+ var paqueteBase : String := 'app';
  var diagrama : Diagrama := Diagrama.allInstances().at(0);
 %]
 
@@ -7,10 +7,52 @@ project --topLevelPackage [%=paqueteBase%]
 persistence setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY
 
 [% for (clase in diagrama.clases ) { %]
-entity --class [%= paqueteBase %].domain.[%= clase.paquete %].[%= clase.nombre %] --testAutomatically
-	[% for (atributo in clase.atributos ) { %]
-field [%= atributo.tipo %] --fieldName [%= atributo.nombre %] --notNull
-	[% }
+entity --class [%= clase.paquete %].[%= clase.nombre %] --testAutomatically
+	[% for (atributo in clase.atributos ) { 
+	
+	if(atributo.tipo = EnumTipos#String){
+	%]
+field string --fieldName [%=atributo.nombre%]
+	[%
+	}
+	
+	if(atributo.tipo = EnumTipos#int){
+	%]
+field number --type java.lang.Integer [%=atributo.nombre%]
+	[%
+	}
+	
+	if(atributo.tipo = EnumTipos#boolean){
+	%]
+field boolean --fieldName [%=atributo.nombre%] --notNull
+	[%
+	}
+	
+	if(atributo.tipo = EnumTipos#float){
+	%]
+field number --type java.lang.Float [%=atributo.nombre%]
+	[%
+	}
+	
+	if(atributo.tipo = EnumTipos#double){
+	%]
+field number --type java.lang.Double [%=atributo.nombre%]
+	[%
+	}
+	
+	if(atributo.tipo = EnumTipos#long){
+	%]
+field number --type java.lang.Long [%=atributo.nombre%]
+	[%
+	}
+	
+	if(atributo.tipo = EnumTipos#char){
+	%]
+field string --fieldName [%=atributo.nombre%] --sizeMax 1
+	[%
+	}
+	
+	 }
  }%]
 
 controller all --package ~.web
