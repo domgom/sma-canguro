@@ -1,7 +1,0 @@
-# Tracing options for the SVNDiagrama.diagram plug-in
-
-# Common issues
-SVNDiagrama.diagram/debug=false
-
-# Visual IDs
-SVNDiagrama.diagram/debug/visualID=false
