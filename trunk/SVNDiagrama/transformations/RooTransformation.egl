@@ -57,15 +57,15 @@ field string --fieldName [%=atributo.nombre%] --sizeMax 1
  }%]
  
 [% //Modificar por referencias
-for (referencia in diagrama.relaciones ) { %]
+for (referencia in diagrama.referencias ) { %]
 focus --class [%=referencia.origen.paquete%].[%=referencia.origen.nombre%]
 field reference --type [%=referencia.destino.paquete%].[%=referencia.destino.nombre%] [%=referencia.destino.nombre.toLowerCase()%]
 [%}%]
 
 [% //Modificar por agregaciones 
-for (agregacion in diagrama.relaciones ) { %]
-focus --class [%=referencia.origen.paquete%].[%=referencia.origen.nombre%]
-field set --fieldName [%=referencia.destino.nombre.toLowerCase()%] --element [%=referencia.destino.paquete%].[%=referencia.destino.nombre%]
+for (agregacion in diagrama.agregaciones ) { %]
+focus --class [%=agregacion.origen.paquete%].[%=agregacion.origen.nombre%]
+field set --fieldName [%=agregacion.destino.nombre.toLowerCase()%] --element [%=agregacion.destino.paquete%].[%=agregacion.destino.nombre%]
 [%}%]
 
 controller all --package ~.web
