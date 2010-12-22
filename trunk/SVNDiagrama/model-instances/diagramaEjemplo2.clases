@@ -9,7 +9,7 @@
     <atributos tipo="long" nombre="largo"/>
     <atributos tipo="char" nombre="caracter"/>
   </clases>
-  <clases paquete="Clase2" nombre="foo.bar">
+  <clases paquete="foo.bar" nombre="Clase2">
     <atributos nombre="cadena2"/>
     <metodos nombre="metodo">
       <parametrosEntrada nombre="param1"/>
