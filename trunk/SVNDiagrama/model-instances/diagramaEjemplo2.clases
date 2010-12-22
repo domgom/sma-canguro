@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrama:Diagrama xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagrama="diagrama">
+  <clases paquete="foo.bar" nombre="Clase1">
+    <atributos nombre="cadena"/>
+    <atributos visibilidad="protected" tipo="int" nombre="entero"/>
+    <atributos visibilidad="private" tipo="boolean" nombre="logico"/>
+    <atributos visibilidad="default" tipo="float" nombre="flotante"/>
+    <atributos tipo="double" nombre="doble"/>
+    <atributos tipo="long" nombre="largo"/>
+    <atributos tipo="char" nombre="caracter"/>
+  </clases>
+  <clases paquete="Clase2" nombre="foo.bar">
+    <atributos nombre="cadena2"/>
+    <metodos nombre="metodo">
+      <parametrosEntrada nombre="param1"/>
+      <parametrosEntrada tipo="int" nombre="param2"/>
+    </metodos>
+  </clases>
+  <clases paquete="foo.bar" nombre="Clase3"/>
+  <referencias nombre="referencia a" destino="//@clases.1" origen="//@clases.0"/>
+  <agregaciones nombre="contiene" destino="//@clases.2" origen="//@clases.0"/>
+</diagrama:Diagrama>
