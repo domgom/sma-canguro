@@ -5,47 +5,61 @@ package Clases;
 @gmf.diagram(foo="bar")
 class Diagrama {
   val Clase [*] clases;
-  val Relacion[*] relaciones;
+  val Referencia[*] referencias;
+  val Agregacion[*] agregaciones;
 }
 
-@gmf.node(label = "nombre", figure="rectangle", label.icon="false" )
+@gmf.node(label = "nombre,paquete", figure="rectangle", label.icon="false" )
 class Clase {
- @gmf.compartment(foo="bar", layout="list")
-  val Atributo[*] atributos;
-  attr EnumVisibilidad visibilidad;
+ 
   attr String paquete;
+  attr String nombre;
+  @gmf.compartment(foo="bar", layout="list")
+  val Atributo[*] atributos;
   @gmf.compartment(foo="bar", layout="list")
   val Metodo[*] metodos;
-  attr String nombre;
+ 
 }
 
-@gmf.node(label = "nombre", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
+@gmf.node(label = "visibilidad,tipo,nombre", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
 class Atributo {
-  attr String nombre;
-  attr EnumTipos tipo;
   attr EnumVisibilidad visibilidad;
+  attr EnumTipos tipo;
+  attr String nombre;
+  
 }
 
-@gmf.link(label="nombre", source="origen", target="destino", style="solid", width="2")
-class Relacion {
+@gmf.link(label="nombre", source="origen", target="destino", style="solid", width="1")
+abstract class Relacion {
   attr String nombre;
   ref Clase[1] destino;
   ref Clase[1] origen;
 }
 
-@gmf.node(label = "nombre", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
+@gmf.link(source.decoration="filledrhomb")
+class Agregacion extends Relacion{
+   
+}
+
+@gmf.link(source.decoration="none")
+class Referencia extends Relacion{
+   
+}
+
+@gmf.node(label = "visibilidad,tipoRetorno,nombre", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
 class Metodo {
+  attr EnumVisibilidad visibilidad;
   attr EnumTiposVoid tipoRetorno;
-  attr boolean esVoid;
   attr String nombre;
   @gmf.compartment(foo="bar", layout="list")
   val Parametro[*] parametrosEntrada;
 }
 
-@gmf.node(label = "nombre", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
+@gmf.node(label = "tipo,nombre", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
 class Parametro {
-  attr String nombre;
   attr EnumTipos tipo;
+  attr String nombre;
+  
 }
 
 enum EnumVisibilidad {
@@ -76,11 +90,5 @@ enum EnumTiposVoid {
   none = 7;
 }
 
-enum EnumRelaciones {
-  Herencia = 0;
-  Agregacion = 1;
-  Composicion = 2;
-  Implementacion = 3;
-}
 
 
