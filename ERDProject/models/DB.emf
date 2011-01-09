@@ -9,17 +9,16 @@ class DiagramaER{
    val Relacion[*] relations;
 }
 
-@gmf.node(label="name",figure="ellipse",label.icon="false")
+@gmf.node(label="name",figure="rectangle",label.icon="false")
 class Entidad{
    attr String name;
    @gmf.compartment(foo="bar", layout="list")
    val Atributo[*] atts; 
 }
 
-@gmf.node(label="name,cardinalidad",figure="rectangle",label.icon="false")
+@gmf.node(label="name",figure="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures.DiamondFigure",label.icon="false")
 class Relacion{
    attr String name;
-   attr String cardinalidad;
    @gmf.compartment(foo="bar", layout="list")
    val Atributo[*] atts; 
 }
