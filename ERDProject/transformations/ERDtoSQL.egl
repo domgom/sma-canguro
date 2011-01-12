@@ -1,0 +1,92 @@
+[%
+	var diagrama : DiagramaER;
+	diagrama := DiagramaER.allInstances().at(0);
+%]
+[%
+	for (entidad in diagrama.nodes){
+	//Obtenemos todos los enlaces que parten de la entidad actual
+	// con cardinalidad 1
+	
+	var foreignKeys : new Set;
+	foreignKeys := entidad.getForeignKeys(diagrama.links);
+	
+%]
+CREATE TABLE [%=entidad.name%](
+				[% 
+					//A–adimos la Pk
+					out.print("\tID_" + entidad.name); %] BIGINT NOT NULL AUTO_INCREMENT
+				[%
+					//A–adimos los campos de la FK
+					for(fk in foreignKeys){
+						out.println("\t," + fk +"_ID BIGINT");
+					}
+				%]
+				[%
+				//A–adimos todos los atributos 
+				for (atributo in entidad.atts){
+										
+					%]
+				[%	 
+					 if(atributo.tipo = EnumTipos#String){
+						out.print("\t," + atributo.nombre); %] varchar(50)
+				[%	 }
+					 if(atributo.tipo = EnumTipos#int){
+						out.print("\t," + atributo.nombre); %] int
+				 [%	 }
+					 if(atributo.tipo = EnumTipos#boolean){
+						out.print("\t," + atributo.nombre); %] bool
+				[%	 }
+					 if(atributo.tipo = EnumTipos#float){
+						out.print("\t," + atributo.nombre); %] float
+			    [%	 }
+					 if(atributo.tipo = EnumTipos#double){
+						out.print("\t," + atributo.nombre); %] double
+				[%	 }
+					 if(atributo.tipo = EnumTipos#long){
+						out.print("\t," + atributo.nombre); %] bigint
+				[%	 }
+					 if(atributo.tipo = EnumTipos#char){
+						out.print("\t," + atributo.nombre); %] varcha(1)
+				[%	}
+				}
+				%]
+			[%
+			  	//Creamos la restricci—n clave primaria
+			  	out.println("\t,Primary Key (" + "ID_" + entidad.name + ")");
+			  	//Creamos la restricciones a las claves foraneas
+			  	//Foreign Key (Customer_SID) references CUSTOMER(SID));
+			  	for(fk in foreignKeys){
+					out.println("\t,Foreign Key (" + fk + "_ID) references " + fk + "(ID_" + fk + ")");
+			 	}
+			%]
+)
+			 
+[%	}	%]
+
+
+[%
+operation Entidad getForeignKeys(enlaces:Collection) : Set{
+  var enlacesOrigen;
+  var enlacesDestino;
+  var listaRelaciones;
+  var nombreEntidadesForaneas;
+  enlacesOrigen := enlaces.select(l| l.cardinalidad = "1" and l.source = self);
+  listaRelaciones := new Set;
+  nombreEntidadesForaneas := new Set;
+  for(enlace in enlacesOrigen){
+  		if(enlace.source.name = self.name){
+  			listaRelaciones.add(enlace.target);
+  		}
+  }
+  
+  for(relacion in listaRelaciones){
+  		enlacesDestino := enlaces.select(l|l.cardinalidad = "N" and l.target = relacion );
+  		for(enlace in enlacesDestino){
+  			nombreEntidadesForaneas.add(enlace.source.name);
+  		}
+  }
+  //nombreEntidadesForaneas.at(0).print();
+  return nombreEntidadesForaneas;
+  
+}
+%]
