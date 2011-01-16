@@ -1,0 +1,7 @@
+-- las cardinalidades solo pueden ser 1 o n
+context Enlace{
+	constraint Cardinality{
+		check: self.cardinalidad.equals("1") or self.cardinalidad.equals("n")
+		message: 'Cardinality should be 1 or n'
+	}
+}
