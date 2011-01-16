@@ -3,12 +3,18 @@
 	diagrama := DiagramaER.allInstances().at(0);
 %]
 [%
-	for (entidad in diagrama.nodes){
-	//Obtenemos todos los enlaces que parten de la entidad actual
-	// con cardinalidad 1
+	//Como la relaciones entre entidades 1:1 se hace conlocando en una de las entidades tenemos que llevar
+	//cuales de las relaciones ya se han mapeado
+	var relaciones1_1Creadas = new Set;
 	
-	var foreignKeys : new Set;
-	foreignKeys := entidad.getForeignKeys(diagrama.links);
+	for (entidad in diagrama.nodes){
+	
+	//Esta variable va a guardar todas las relaciones que existe entre entidades 1:N y 1:1 obtenidas a través
+	//del método getForeignKeys.
+	var foreignKeys = new Set;
+	
+	//Obtenemos todas las claves foraneas asociado a la entidad que estamos recorriendo
+	foreignKeys := entidad.getForeignKeys(diagrama.links, relaciones1_1Creadas);
 	
 %]
 CREATE TABLE [%=entidad.name%](
@@ -18,7 +24,7 @@ CREATE TABLE [%=entidad.name%](
 				[%
 					//Añadimos los campos de la FK
 					for(fk in foreignKeys){
-						out.println("\t," + fk +"_ID BIGINT");
+						out.println("\t," + fk.target.name + " BIGINT");
 					}
 				%]
 				[%
@@ -28,7 +34,7 @@ CREATE TABLE [%=entidad.name%](
 					%]
 				[%	 
 					 if(atributo.tipo = EnumTipos#String){
-						out.print("\t," + atributo.nombre); %] varchar(50)
+						out.print("\t," + atributo.nombre); %] varchar(150)
 				[%	 }
 					 if(atributo.tipo = EnumTipos#int){
 						out.print("\t," + atributo.nombre); %] int
@@ -46,7 +52,7 @@ CREATE TABLE [%=entidad.name%](
 						out.print("\t," + atributo.nombre); %] bigint
 				[%	 }
 					 if(atributo.tipo = EnumTipos#char){
-						out.print("\t," + atributo.nombre); %] varcha(1)
+						out.print("\t," + atributo.nombre); %] varchar(1)
 				[%	}
 				}
 				%]
@@ -54,9 +60,8 @@ CREATE TABLE [%=entidad.name%](
 			  	//Creamos la restricción clave primaria
 			  	out.println("\t,Primary Key (" + "ID_" + entidad.name + ")");
 			  	//Creamos la restricciones a las claves foraneas
-			  	//Foreign Key (Customer_SID) references CUSTOMER(SID));
 			  	for(fk in foreignKeys){
-					out.println("\t,Foreign Key (" + fk + "_ID) references " + fk + "(ID_" + fk + ")");
+					out.println("\t,Foreign Key (" + fk.target.name + ") references " + fk.source.name + "(ID_" + fk.source.name + ")");
 			 	}
 			%]
 )
@@ -65,28 +70,38 @@ CREATE TABLE [%=entidad.name%](
 
 
 [%
-operation Entidad getForeignKeys(enlaces:Collection) : Set{
+operation Entidad getForeignKeys(enlaces:Collection, relaciones1_1:Set) : Set{
   var enlacesOrigen;
   var enlacesDestino;
   var listaRelaciones;
-  var nombreEntidadesForaneas;
-  enlacesOrigen := enlaces.select(l| l.cardinalidad = "1" and l.source = self);
-  listaRelaciones := new Set;
-  nombreEntidadesForaneas := new Set;
+  var relacionesForaneas;
+  enlacesOrigen = enlaces.select(l| l.cardinalidad = "1" and l.source = self);
+  listaRelaciones = new Set;
+  relacionesForaneas := new Set;
   for(enlace in enlacesOrigen){
-  		if(enlace.source.name = self.name){
-  			listaRelaciones.add(enlace.target);
-  		}
+  		
+  			listaRelaciones.add(enlace);
+  		
   }
   
+  
   for(relacion in listaRelaciones){
-  		enlacesDestino := enlaces.select(l|l.cardinalidad = "N" and l.target = relacion );
+  		enlacesDestino = enlaces.select(l|(l.cardinalidad = "N" or l.cardinalidad = "1" )  and l.target = relacion.target and not(l.source = self) );
   		for(enlace in enlacesDestino){
-  			nombreEntidadesForaneas.add(enlace.source.name);
+  		   if (enlace.cardinalidad = "1" and not relaciones1_1.includes(enlace.target)){
+  				relacionesForaneas.add(enlace);
+  				relaciones1_1.add(enlace.target);
+  			}else{
+  				if(enlace.cardinalidad = "N")
+  					relacionesForaneas.add(enlace);
+  			}
+  			
   		}
+  		
   }
-  //nombreEntidadesForaneas.at(0).print();
-  return nombreEntidadesForaneas;
+  
+ 
+  return relacionesForaneas;
   
 }
 %]
