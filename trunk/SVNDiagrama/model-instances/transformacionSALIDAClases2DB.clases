@@ -2,12 +2,12 @@
 <DB:DiagramaER xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DB="DB">
   <nodes name="Clase1">
     <atts nombre="cadena"/>
-    <atts nombre="entero"/>
-    <atts nombre="logico"/>
-    <atts nombre="flotante"/>
-    <atts nombre="doble"/>
-    <atts nombre="largo"/>
-    <atts nombre="caracter"/>
+    <atts nombre="entero" tipo="int"/>
+    <atts nombre="logico" tipo="boolean"/>
+    <atts nombre="flotante" tipo="float"/>
+    <atts nombre="doble" tipo="double"/>
+    <atts nombre="largo" tipo="long"/>
+    <atts nombre="caracter" tipo="char"/>
   </nodes>
   <nodes name="Clase2">
     <atts nombre="cadena2"/>
