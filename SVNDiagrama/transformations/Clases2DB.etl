@@ -11,23 +11,27 @@ rule Diagrama2DiagramaER
 			
 			var at := new DB!Atributo;
 			at.nombre := atributo.nombre;
-			//var enumtipo := new DB!EnumTipos;
-			//enumtipo.println();
+			
 			if(atributo.tipo.name == 'String'){
-				//at.tipo := atributo.tipo;
-				//at.tipo.literal := new Native("java.lang.String");
+				at.tipo := 'String'.transformaTipoDB();
+				
 			}else if(atributo.tipo.name == 'int'){
-				//at.tipo := atributo.tipo;
+				at.tipo := 'int'.transformaTipoDB();
+				
 			}else if(atributo.tipo.name == 'boolean'){
-				//at.tipo := new Boolean();
+				at.tipo := 'boolean'.transformaTipoDB();
+				
 			}else if(atributo.tipo.name == 'float'){
-				//at.tipo := new Real();
+				at.tipo := 'float'.transformaTipoDB();
+				
 			}else if(atributo.tipo.name == 'double'){
-				//at.tipo := new Real();
+				at.tipo := 'double'.transformaTipoDB();
+				
 			}else if(atributo.tipo.name == 'long'){
-				//at.tipo := new Long();
+				at.tipo := 'long'.transformaTipoDB();
+				
 			}else if(atributo.tipo.name == 'char'){
-				//at.tipo := new Character();
+				at.tipo := 'char'.transformaTipoDB();
 			}	
 				
 			entidad.atts.add(at);
@@ -75,7 +79,27 @@ rule Diagrama2DiagramaER
 			
 	t.nodes.add(entidad);	
 	}
+	
 }	
-		
-		
+
+	
+operation String transformaTipoDB(){
+	if(self = 'String'){
+		return DB!EnumTipos#String;
+	}else if(self = 'int'){
+		return DB!EnumTipos#int;
+	}else if(self = 'boolean'){
+		return DB!EnumTipos#boolean;
+	}else if(self = 'float'){
+		return DB!EnumTipos#float;
+	}else if(self = 'double'){
+		return DB!EnumTipos#double;
+	}else if(self = 'long'){
+		return DB!EnumTipos#long;
+	}else if(self = 'char'){
+		return DB!EnumTipos#char;
+	}
+}
+	
+
 
