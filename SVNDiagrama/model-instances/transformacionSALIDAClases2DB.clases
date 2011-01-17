@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<DB:DiagramaER xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DB="DB">
+  <nodes name="Clase1">
+    <atts nombre="cadena"/>
+    <atts nombre="entero"/>
+    <atts nombre="logico"/>
+    <atts nombre="flotante"/>
+    <atts nombre="doble"/>
+    <atts nombre="largo"/>
+    <atts nombre="caracter"/>
+  </nodes>
+  <nodes name="Clase2">
+    <atts nombre="cadena2"/>
+  </nodes>
+  <nodes name="Clase3"/>
+  <links cardinalidad="1" source="//@nodes.0" target="//@relations.0"/>
+  <links cardinalidad="N" source="//@nodes.1" target="//@relations.1"/>
+  <links cardinalidad="N" source="//@nodes.2" target="//@relations.2"/>
+  <relations name="Clase2"/>
+  <relations name="Clase3"/>
+  <relations name="Clase3"/>
+</DB:DiagramaER>
