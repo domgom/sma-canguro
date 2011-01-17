@@ -1,0 +1,81 @@
+
+rule Diagrama2DiagramaER
+	transform c : Clases!Diagrama 
+	to t : DB!DiagramaER {
+	
+	for (clase in c.clases){
+		var entidad := new DB!Entidad();
+		entidad.name := clase.nombre;
+			
+		for (atributo in clase.atributos){ 
+			
+			var at := new DB!Atributo;
+			at.nombre := atributo.nombre;
+			//var enumtipo := new DB!EnumTipos;
+			//enumtipo.println();
+			if(atributo.tipo.name == 'String'){
+				//at.tipo := atributo.tipo;
+				//at.tipo.literal := new Native("java.lang.String");
+			}else if(atributo.tipo.name == 'int'){
+				//at.tipo := atributo.tipo;
+			}else if(atributo.tipo.name == 'boolean'){
+				//at.tipo := new Boolean();
+			}else if(atributo.tipo.name == 'float'){
+				//at.tipo := new Real();
+			}else if(atributo.tipo.name == 'double'){
+				//at.tipo := new Real();
+			}else if(atributo.tipo.name == 'long'){
+				//at.tipo := new Long();
+			}else if(atributo.tipo.name == 'char'){
+				//at.tipo := new Character();
+			}	
+				
+			entidad.atts.add(at);
+		}
+		
+		var bool = false;
+		
+		//Busco en referencias
+		for (referencia in c.referencias){ //1.1
+		
+			if(entidad.name == referencia.origen.nombre){	
+				bool = true;
+			
+				var enlace := new DB!Enlace();
+				enlace.source := entidad;
+				enlace.source.name := entidad.name;
+				enlace.source.name.println();
+			
+				enlace.target := new DB!Relacion();
+				enlace.target.name := referencia.destino.nombre;
+				enlace.cardinalidad := "1";
+				enlace.target.name.println();
+				enlace.source.name.println();
+			
+				t.links.add(enlace);
+				t.relations.add(enlace.target);
+			}
+		}
+		
+		if(bool== false){
+			for(agregacion in c.agregaciones){
+			
+				var enlace2 := new DB!Enlace();
+				enlace2.source := entidad;
+				enlace2.source.name := entidad.name;
+			
+				enlace2.target := new DB!Relacion();
+				enlace2.target.name := agregacion.destino.nombre;
+				enlace2.target.name.println();
+				enlace2.cardinalidad = "N";
+				t.links.add(enlace2);
+				t.relations.add(enlace2.target);
+			}
+		}
+			
+	t.nodes.add(entidad);	
+	}
+}	
+		
+		
+
