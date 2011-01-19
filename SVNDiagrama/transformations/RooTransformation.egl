@@ -65,7 +65,7 @@ field reference --type [%=referencia.destino.paquete%].[%=referencia.destino.nom
 [% //Modificar por agregaciones 
 for (agregacion in diagrama.agregaciones ) { %]
 focus --class [%=agregacion.origen.paquete%].[%=agregacion.origen.nombre%]
-field set --fieldName [%=agregacion.destino.nombre.toLowerCase()%] --element [%=agregacion.destino.paquete%].[%=agregacion.destino.nombre%]
+field set --fieldName [%=agregacion.destino.nombre.toLowerCase()%] --type [%=agregacion.destino.paquete%].[%=agregacion.destino.nombre%]
 [%}%]
 
 controller all --package ~.web
