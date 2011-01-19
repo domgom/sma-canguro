@@ -3,32 +3,25 @@
 	diagrama := DiagramaER.allInstances().at(0);
 %]
 [%
-	//Como la relaciones entre entidades 1:1 se hace conlocando en una de las entidades tenemos que llevar
-	//cuales de las relaciones ya se han mapeado
 	var relaciones1_1Creadas = new Set;
-	
 	for (entidad in diagrama.nodes){
+		var foreignKeys = new Set;
 	
-	//Esta variable va a guardar todas las relaciones que existe entre entidades 1:N y 1:1 obtenidas a través
-	//del método getForeignKeys.
-	var foreignKeys = new Set;
-	
-	//Obtenemos todas las claves foraneas asociado a la entidad que estamos recorriendo
-	foreignKeys := entidad.getForeignKeys(diagrama.links, relaciones1_1Creadas);
+		foreignKeys := entidad.getForeignKeys(diagrama.links, relaciones1_1Creadas);
 	
 %]
 CREATE TABLE [%=entidad.name%](
 				[% 
-					//Añadimos la Pk
+					//AÒadimos la Pk
 					out.print("\tID_" + entidad.name); %] BIGINT NOT NULL AUTO_INCREMENT
 				[%
-					//Añadimos los campos de la FK
+					//AÒadimos los campos de la FK
 					for(fk in foreignKeys){
 						out.println("\t," + fk.target.name + " BIGINT");
 					}
 				%]
 				[%
-				//Añadimos todos los atributos 
+				//AÒadimos todos los atributos 
 				for (atributo in entidad.atts){
 										
 					%]
@@ -57,7 +50,7 @@ CREATE TABLE [%=entidad.name%](
 				}
 				%]
 			[%
-			  	//Creamos la restricción clave primaria
+			  	//Creamos la restriccion clave primaria
 			  	out.println("\t,Primary Key (" + "ID_" + entidad.name + ")");
 			  	//Creamos la restricciones a las claves foraneas
 			  	for(fk in foreignKeys){
@@ -75,7 +68,7 @@ operation Entidad getForeignKeys(enlaces:Collection, relaciones1_1:Set) : Set{
   var enlacesDestino;
   var listaRelaciones;
   var relacionesForaneas;
-  enlacesOrigen = enlaces.select(l| l.cardinalidad = "1" and l.source = self);
+  enlacesOrigen = enlaces.select(l| (l.cardinalidad = "1" or l.cardinalidad = "N") and l.source = self);
   listaRelaciones = new Set;
   relacionesForaneas := new Set;
   for(enlace in enlacesOrigen){
@@ -86,7 +79,7 @@ operation Entidad getForeignKeys(enlaces:Collection, relaciones1_1:Set) : Set{
   
   
   for(relacion in listaRelaciones){
-  		enlacesDestino = enlaces.select(l|(l.cardinalidad = "N" or l.cardinalidad = "1" )  and l.target = relacion.target and not(l.source = self) );
+  		enlacesDestino = enlaces.select(l| l.cardinalidad = "1"  and l.target = relacion.target and not(l.source = self) );
   		for(enlace in enlacesDestino){
   		   if (enlace.cardinalidad = "1" and not relaciones1_1.includes(enlace.target)){
   				relacionesForaneas.add(enlace);
