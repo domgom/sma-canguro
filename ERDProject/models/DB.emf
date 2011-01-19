@@ -19,8 +19,6 @@ class Entidad{
 @gmf.node(label="name",figure="org.eclipse.epsilon.eugenia.examples.flowchart.diagram.figures.DiamondFigure",label.icon="false")
 class Relacion{
    attr String name;
-   @gmf.compartment(foo="bar", layout="list")
-   val Atributo[*] atts; 
 }
 
 @gmf.node(label = "nombre,tipo", figure="rectangle", border.width="0", border.color="255,255,255", label.icon="false")
