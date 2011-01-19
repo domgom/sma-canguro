@@ -1,0 +1,30 @@
+[%
+ var diagrama : Diagrama := Diagrama.allInstances().at(0);
+ %]
+package aspects;
+ 
+import aspects.*;
+[% for (clase in diagrama.clases ) { 
+  for(atributo in clase.atributos){
+  if(atributo.nombre == "hasLoggin"){ %]
+import [%=clase.paquete%].[%=clase.nombre%];
+[%                                             }
+}
+}
+%]
+ 
+aspect TraceMyClass extends AbstractTrace {
+   
+   
+    [% for (clase in diagrama.clases ) { 
+    
+    for(atributo in clase.atributos){
+  if(atributo.nombre == "hasLoggin"){
+    %]
+    pointcut classes[%=clase.nombre%](): within([%=clase.nombre%]);
+   [% }}}%]
+    pointcut constructors(): execution(new(..));   
+    pointcut methods(): execution(* *(..));    
+    pointcut exceptions(): handler(Exception+);
+}
+
