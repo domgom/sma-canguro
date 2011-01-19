@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DB:DiagramaER xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:DB="DB">
+  <nodes name="Entidad1">
+    <atts nombre="Atr1"/>
+    <atts nombre="Atr2" tipo="boolean"/>
+    <atts nombre="Atr3" tipo="int"/>
+  </nodes>
+  <nodes name="Entidad2">
+    <atts nombre="Atr1" tipo="float"/>
+  </nodes>
+  <nodes name="Entidad3"/>
+  <nodes name="Entidad4"/>
+  <links cardinalidad="1" source="//@nodes.0" target="//@relations.0"/>
+  <links cardinalidad="N" source="//@nodes.1" target="//@relations.0"/>
+  <links cardinalidad="1" source="//@nodes.0" target="//@relations.1"/>
+  <links cardinalidad="N" source="//@nodes.0" target="//@relations.2"/>
+  <links cardinalidad="N" source="//@nodes.2" target="//@relations.1"/>
+  <links cardinalidad="1" source="//@nodes.2" target="//@relations.2"/>
+  <links cardinalidad="1" source="//@nodes.0" target="//@relations.3"/>
+  <links cardinalidad="1" source="//@nodes.3" target="//@relations.3"/>
+  <relations name="Relacion1"/>
+  <relations name="Relacion2"/>
+  <relations name="Relacion3"/>
+  <relations name="Relacion4"/>
+</DB:DiagramaER>
