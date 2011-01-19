@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrama:Diagrama xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagrama="diagrama">
+  <clases paquete="paqueteClases" nombre="Clase1">
+    <atributos nombre="Atr1"/>
+    <atributos tipo="boolean" nombre="Atr2"/>
+    <atributos tipo="int" nombre="Atr3"/>
+    <metodos nombre="metodo1"/>
+  </clases>
+  <clases paquete="Clase2" nombre="paqueteClases">
+    <atributos tipo="float" nombre="Atr1"/>
+  </clases>
+  <clases paquete="paqueteClases" nombre="Clase3">
+    <metodos tipoRetorno="boolean" nombre="metodo1"/>
+  </clases>
+  <clases paquete="paqueteClases" nombre="Clase4">
+    <metodos tipoRetorno="float" nombre="metodo1"/>
+  </clases>
+  <referencias nombre="Relacion4" destino="//@clases.0" origen="//@clases.3"/>
+  <agregaciones nombre="Relacion1" destino="//@clases.1" origen="//@clases.0"/>
+  <agregaciones nombre="Relacion2" destino="//@clases.2" origen="//@clases.0"/>
+  <agregaciones nombre="Relacion3" destino="//@clases.0" origen="//@clases.2"/>
+</diagrama:Diagrama>
